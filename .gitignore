@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Production credentials (DO NOT COMMIT)
+.env.prod.db
+
 # Distribution / packaging
 .Python
 build/

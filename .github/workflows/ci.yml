@@ -1,0 +1,33 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build dev stack
+        run: docker compose build
+
+      - name: Start dev stack
+        run: docker compose up -d
+
+      - name: Smoke test
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:5001/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker compose logs
+          exit 1
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down -v
+

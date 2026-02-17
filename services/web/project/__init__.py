@@ -61,4 +61,3 @@ def staticfiles(filename):
 @app.route("/media/<path:filename>")
 def mediafiles(filename):
     return send_from_directory(app.config["MEDIA_FOLDER"], filename)
-
